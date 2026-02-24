@@ -1,0 +1,23 @@
+﻿Country,Continent,Income Level,G7,G20,NATO,EU
+United States,North America,High,Yes,Yes,Yes,No
+United Kingdom,Europe,High,Yes,Yes,Yes,No
+Russia,Europe/Asia,Upper-Middle,No,Yes,No,No
+China,Asia,Upper-Middle,No,Yes,No,No
+Trans-Europeanh,Europe,High,No,No,No,Yes
+Italy,Europe,High,Yes,Yes,Yes,Yes
+France,Europe,High,Yes,Yes,Yes,Yes
+South Korea,Asia,High,No,Yes,No,No
+Germany,Europe,High,Yes,Yes,Yes,Yes
+Israel,Asia,High,No,No,No,No
+Sweden,Europe,High,No,Yes,Yes,Yes
+Japan,Asia,High,Yes,Yes,No,No
+India,Asia,Lower-Middle,No,Yes,No,No
+Taiwan,Asia,High,No,No,No,No
+Türkiye,Europe/Asia,Upper-Middle,No,Yes,Yes,No
+Singapore,Asia,High,No,No,No,No
+Ukraine,Europe,Lower-Middle,No,Yes,No,No
+Poland,Europe,High,No,Yes,Yes,Yes
+Norway,Europe,High,No,No,Yes,No
+Canada,North America,High,Yes,Yes,Yes,No
+Spain,Europe,High,No,Yes,Yes,Yes
+Czechia,Europe,High,No,No,Yes,Yes
