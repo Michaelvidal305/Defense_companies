@@ -1,13 +1,46 @@
-# Defense_companies
+# 🛡️ Global Defense Companies Analysis
 
-This dataset is based on the SIPRI Top 100 Arms-Producing and Military Services Companies (2023).I studied the latest SIPRI report, which lists the world’s top 100 defense companies, and compiled historical stock data for the last 15 years (2010–2025) for the companies that are publicly listed on their respective stock exchanges.
+## 📌 Project Overview
+This project analyzes the Top 100 Defense Companies (2023) using data from SIPRI, combined with a country‑level geopolitical classification dataset.
+The goal is to explore:
 
-Out of the top 100 companies, 66 are publicly listed, and the remaining 34 are private or unlisted.This dataset includes historical data for the 66 listed companies.
+  - Global distribution of defense contractors
+  - Arms revenue trends
+  - Country‑level defense industry characteristics
+  - G7 / G20 / NATO / EU participation
+  - Regional and economic segmentation
+  - Year‑over‑year ranking changes
 
-In addition, the dataset includes a supplementary table providing country-level information for the listed companies, including:
-  
-  - Continent group
-  - Income group
-  - Geopolitical group
+This repository is structured for data analysis, visualization, and future modeling.
 
-This additional information is intended to provide context for analysis of global defense industry trends across geography, economy, and geopolitical affiliations.
+## 📁 Datasets Included
+
+1. SIPRI Top 100 Defense Companies (2023)
+2. Country‑Level Segmentation Dataset
+
+
+## 🧠 Key Questions This Project Can Answer
+  - Which countries dominate global defense revenue?
+  - How concentrated is the defense industry among the top firms?
+  - Which companies grew the fastest year‑over‑year?
+  - What percentage of revenue comes from arms vs. civilian sectors?
+  - How do geopolitical alliances (NATO, G7, G20) correlate with defense spending?
+  - How do income levels relate to defense industry presence?
+
+## 🛠️ Planned Analysis
+1. Company‑Level Analysis
+   - Revenue growth (2022 → 2023)
+   - Market share of top 10 vs. rest
+   - Arms revenue dependency (% of total revenue)
+
+2. Country‑Level Analysis
+   - Number of companies per country
+   - Total arms revenue by country
+   - NATO vs. non‑NATO comparison
+   - G7 vs. G20 segmentation
+
+3. Visualization Ideas
+   - Bar charts of top companies
+   - Choropleth map of arms revenue by country
+   - Scatter plot: Total revenue vs. arms revenue %
+   - Ranking change visualization (2022 → 2023)
