@@ -16,7 +16,19 @@ This repository is structured for data analysis, visualization, and future model
 ## 📁 Datasets Included
 
 1. SIPRI Top 100 Defense Companies (2023)
-2. Country‑Level Segmentation Dataset
+
+| Column | Description                                                       |
+|--------|-------------------------------------------------------------------|
+| Rank (2023) | Company's global ranking in 2023 |
+| Rank (2022) | Previous year ranking |
+| Company name | Official company name |
+| Country | Country of headquarters |
+| Arms Revenue 2023 | Arms-related revenue (USD millions) |
+| Arms Revenue 2022 | Previous year arms revenue |
+| Total Revenue 2023 | Total coporate revenue |
+| Arms Revenue | Share of total revenue from defense |
+
+3. Country‑Level Segmentation Dataset
 
 
 ## 🧠 Key Questions This Project Can Answer
