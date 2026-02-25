@@ -28,6 +28,11 @@ This repository is structured for data analysis, visualization, and future model
 | Total Revenue 2023 | Total coporate revenue |
 | Arms Revenue | Share of total revenue from defense |
 
+[SIPRI Top 100 Defense Companies (2023)](Dataset/SIPRI Top 100 Defense Companies Official List.csv)
+
+[Country Segmentation Dataset](Dataset/Listed Companies CountryWise  Segregation.csv)
+
+
 3. Country‑Level Segmentation Dataset
 
 
