@@ -32,8 +32,9 @@ This repository is structured for data analysis, visualization, and future model
 **File:** [SIPRI Top 100 Defense Companies (2023)](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
 
 
-3. Country‑Level Segmentation Dataset
+2. Country‑Level Segmentation Dataset
 - This dataset is used to enrich the company list with **geopolitical attributes**
+
 | Column | Description                                                       |
 |--------|-------------------------------------------------------------------|
 | Country | Nation name |
