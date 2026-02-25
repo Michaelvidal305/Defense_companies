@@ -29,7 +29,7 @@ This repository is structured for data analysis, visualization, and future model
 | Total Revenue 2023 | Total coporate revenue |
 | Arms Revenue | Share of total revenue from defense |
 
-**File:** [SIPRI Top 100 Defense Companies (2023)](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
+**File:** [SIPRI Top 100 Defense Companies (2023).csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
 
 
 2. Country‑Level Segmentation Dataset
@@ -45,7 +45,7 @@ This repository is structured for data analysis, visualization, and future model
 | NATO | Whether the country is a NATO member |
 | EU | Whether the country is a EU member |
 
-**File:** [Country Segmentation Dataset](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Listed%20Companies%20CountryWise%20%20Segregation.csv)
+**File:** [Country Segmentation Dataset.csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Listed%20Companies%20CountryWise%20%20Segregation.csv)
 
 ## 🧠 Key Questions This Project Can Answer
   - Which countries dominate global defense revenue?
