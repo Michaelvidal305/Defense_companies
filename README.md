@@ -16,7 +16,8 @@ This repository is structured for data analysis, visualization, and future model
 ## 📁 Datasets Included
 
 1. SIPRI Top 100 Defense Companies (2023)
-
+- This dataset allows analysis of **growth, market share, and geopolitical distribution**
+  
 | Column | Description                                                       |
 |--------|-------------------------------------------------------------------|
 | Rank (2023) | Company's global ranking in 2023 |
@@ -28,13 +29,22 @@ This repository is structured for data analysis, visualization, and future model
 | Total Revenue 2023 | Total coporate revenue |
 | Arms Revenue | Share of total revenue from defense |
 
-- [SIPRI Top 100 Defense Companies (2023)](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
-
-[Country Segmentation Dataset](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Listed%20Companies%20CountryWise%20%20Segregation.csv)
+**File:** [SIPRI Top 100 Defense Companies (2023)](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
 
 
 3. Country‑Level Segmentation Dataset
+- This dataset is used to enrich the company list with **geopolitical attributes**
+| Column | Description                                                       |
+|--------|-------------------------------------------------------------------|
+| Country | Nation name |
+| Continent | Geographic region |
+| Income Level | World Bank income classification |
+| G7 | Whether the country is a G7 member |
+| G20 | Whether the country is a G20 member |
+| NATO | Whether the country is a NATO member |
+| EU | Whether the country is a EU member |
 
+**File:** [Country Segmentation Dataset](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Listed%20Companies%20CountryWise%20%20Segregation.csv)
 
 ## 🧠 Key Questions This Project Can Answer
   - Which countries dominate global defense revenue?
