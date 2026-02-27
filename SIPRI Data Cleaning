@@ -1,1 +1,213 @@
+SQLite studio data cleaning for SIPRI top 100 Defense Companies Official List
 
+-- 1. CREATE RAW TABLE (MATCHES CSV EXACTLY)
+------------------------------------------------------------
+CREATE TABLE sipri_raw (
+    rank_2023      INTEGER,
+    rank_2022      INTEGER,
+    company_name   TEXT,
+    country        TEXT,
+    arms_rev_2023  TEXT,
+    arms_rev_2022  TEXT,
+    total_rev_2023 TEXT,
+    arms_rev_pct   TEXT
+);
+
+-- IMPORT CSV INTO sipri_raw USING SQLiteStudio GUI 
+
+------------------------------------------------------------
+-- 2. CREATE CLEAN TABLE WITH PROPER DATA TYPES
+------------------------------------------------------------
+
+CREATE TABLE sipri_clean ( 
+  rank_2023 INTEGER, 
+  rank_2022 INTEGER, 
+  company_name TEXT, 
+  country TEXT, 
+  arms_rev_2023 REAL, 
+  arms_rev_2022 REAL, 
+  total_rev_2023 REAL, 
+  arms_rev_pct REAL 
+);
+
+-- IMPORT CSV INTO sipri_clean USING SQLiteStudio GUI 
+
+------------------------------------------------------------
+3. Insert cleaned data
+-- Fixes:
+-- • Removes commas
+-- • Converts '' → NULL
+-- • Converts '90.00%' → 0.90
+-- • Removes non‑breaking spaces from country names
+-- • Converts all numeric fields to REAL
+------------------------------------------------------------
+INSERT INTO sipri_clean SELECT rank_2023,
+                               rank_2022,
+                               TRIM(company_name) AS company_name,-- Remove NBSP (CHAR(160)) and trim
+                               TRIM(REPLACE(country, CHAR(160), '') ) AS country,-- Convert numeric strings → REAL
+                               CASE WHEN arms_rev_2023 = '' THEN NULL ELSE REPLACE(arms_rev_2023, ',', '') * 1.0 END AS arms_rev_2023,
+                               CASE WHEN arms_rev_2022 = '' THEN NULL ELSE REPLACE(arms_rev_2022, ',', '') * 1.0 END AS arms_rev_2022,
+                               CASE WHEN total_rev_2023 = '' THEN NULL ELSE REPLACE(total_rev_2023, ',', '') * 1.0 END AS total_rev_2023,-- Convert "90.00%" → 0.90
+                               CASE WHEN arms_rev_pct IS NULL OR
+                                         arms_rev_pct = '' THEN NULL ELSE REPLACE(REPLACE(arms_rev_pct, '%', ''), ',', '') / 100.0 END AS arms_rev_pct
+                          FROM sipri_raw;
+
+------------------------------------------------------------
+4. Standardize Country names
+------------------------------------------------------------
+
+-- Create a country normalization table
+CREATE TABLE country_lookup (
+    raw_country TEXT,
+    clean_country TEXT
+);
+
+INSERT INTO country_lookup VALUES
+    ('United States', 'United States'),
+    ('United Kingdom', 'United Kingdom'),
+    ('Trans-Europeanh', 'Trans-European'),
+    (' China', 'China'),
+    ('China', 'China'),
+    ('South Korea', 'South Korea'),
+    ('Türkiye', 'Turkey'),
+    (' Italy', 'Italy'),
+    ('Italy', 'Italy'),
+    (' France', 'France'),
+    ('France', 'France'),
+    (' Japan', 'Japan'),
+    ('Japan', 'Japan'),
+    (' India', 'India'),
+    ('India', 'India');
+
+-- Apply normalization
+UPDATE sipri_clean
+SET country = (
+    SELECT clean_country
+    FROM country_lookup
+    WHERE raw_country = sipri_clean.country
+)
+WHERE country IN (SELECT raw_country FROM country_lookup);
+
+-- Remove leading non-breaking spaces (CHAR(160)) and normal spaces
+UPDATE sipri_clean
+SET country = TRIM(REPLACE(country, CHAR(160), ''));
+
+------------------------------------------------------------
+5. Standardize company name 
+------------------------------------------------------------
+
+UPDATE sipri_clean
+SET company_name = TRIM(
+        REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(company_name, CHAR(160), ''),   -- remove NBSP
+                    ' e', ''),                                  -- remove trailing " e"
+                ' f', ''),                                      -- remove trailing " f"
+            ' g', ''),                                          -- remove trailing " g"
+        ' i', '')                                               -- remove trailing " i"
+    );
+
+-- Additional cleanup 
+-- Fix CETCe → CETC
+UPDATE sipri_clean
+SET company_name = 'CETC'
+WHERE company_name LIKE 'CETC%';
+
+-- Fix CASCe → CASC
+UPDATE sipri_clean
+SET company_name = 'CASC'
+WHERE company_name LIKE 'CASC%';
+
+-- Fix CSSCe → CSSC
+UPDATE sipri_clean
+SET company_name = 'CSSC'
+WHERE company_name LIKE 'CSSC%';
+
+-- Fix Rostece f → Rostec
+UPDATE sipri_clean
+SET company_name = 'Rostec'
+WHERE company_name LIKE 'Rostec%';
+
+-- Fix L3Harris Technologiesg → L3Harris Technologies
+UPDATE sipri_clean
+SET company_name = 'L3Harris Technologies'
+WHERE company_name LIKE 'L3Harris Technologies%';
+
+------------------------------------------------------------
+6. Add derived columns (Arms Revenue Percentage Growth, Arms Absolute Growth, Ranks Change
+------------------------------------------------------------
+
+-- These are extremely useful for analysis and dashboards.
+-- arms_rev_growth → percentage growth between years 2022 to 2023
+-- arms_rev_growth_usd → absolute growth in USD millions between years 2022 to 2023
+-- rank_change → movement in ranking between years 2022 to 2023
+
+ALTER TABLE sipri_clean ADD COLUMN arms_rev_growth REAL;
+ALTER TABLE sipri_clean ADD COLUMN rank_change INTEGER;
+ALTER TABLE sipri_clean ADD COLUMN arms_rev_growth_usd REAL;
+
+UPDATE sipri_clean
+   SET arms_rev_growth = CASE WHEN arms_rev_2022 IS NULL OR
+                                   arms_rev_2022 = 0 THEN NULL ELSE (arms_rev_2023 - arms_rev_2022) / arms_rev_2022 END,
+       rank_change = rank_2022 - rank_2023;
+
+UPDATE sipri_clean
+SET arms_rev_growth_usd =
+    CASE
+        WHEN arms_rev_2023 IS NULL OR arms_rev_2022 IS NULL THEN NULL
+        ELSE arms_rev_2023 - arms_rev_2022
+    END;
+
+------------------------------------------------------------
+7. Create a Normalized Industry Classification Table
+------------------------------------------------------------
+
+CREATE TABLE industry_lookup (
+    company_clean TEXT,
+    industry TEXT
+);
+
+INSERT INTO industry_lookup VALUES
+    ('Lockheed Martin Corp.', 'Aerospace & Defense'),
+    ('RTX', 'Aerospace & Defense'),
+    ('Northrop Grumman Corp.', 'Aerospace & Defense'),
+    ('Boeing', 'Aerospace & Defense'),
+    ('General Dynamics Corp.', 'Aerospace & Defense'),
+    ('BAE Systems', 'Aerospace & Defense'),
+    ('Rheinmetall', 'Defense Manufacturing'),
+    ('Hanwha Group', 'Defense & Industrial'),
+    ('Saab', 'Aerospace & Defense'),
+    ('Elbit Systems', 'Defense Electronics');
+
+-- Add column
+ALTER TABLE sipri_clean ADD COLUMN industry TEXT;
+
+-- Update
+UPDATE sipri_clean
+SET industry = (
+    SELECT industry
+    FROM industry_lookup
+    WHERE sipri_clean.company_name LIKE '%' || industry_lookup.company_clean || '%'
+)
+WHERE EXISTS (
+    SELECT 1
+    FROM industry_lookup
+    WHERE sipri_clean.company_name LIKE '%' || industry_lookup.company_clean || '%'
+);
+
+------------------------------------------------------------
+8. Validate Numeric Ranges (find outliers or bad data)
+------------------------------------------------------------
+-- Find invalid percentages
+SELECT *
+FROM sipri_clean
+WHERE arms_rev_pct < 0 OR arms_rev_pct > 1;
+
+-- Find negative revenues
+SELECT *
+FROM sipri_clean
+WHERE arms_rev_2023 < 0
+   OR arms_rev_2022 < 0
+   OR total_rev_2023 < 0;
