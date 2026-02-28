@@ -1,0 +1,36 @@
+
+=============================
+1. Create raw table for CSV import
+=============================
+
+-- Create raw table for CSV import 
+CREATE TABLE listed_companies_raw (
+    Country      TEXT,
+    Continent    TEXT,
+    Income_Level TEXT,
+    G7           TEXT,
+    G20          TEXT,
+    NATO         TEXT,
+    EU           TEXT
+);
+
+=============================
+2. Create raw table for CSV import
+=============================
+
+-- Create cleaned table
+CREATE TABLE listed_companies_clean AS
+SELECT
+-- Fix known typo and trim whitespace
+     TRIM(CASE WHEN Country = 'Trans-Europeanh' THEN 'Trans-European' ELSE Country END) AS Country,
+       TRIM(Continent) AS Continent, 
+    
+-- Normalize income levels
+     CASE WHEN Income_Level LIKE '%High%' THEN 'High' WHEN Income_Level LIKE '%Upper%' THEN 'Upper-Middle' WHEN Income_Level LIKE '%Lower%' THEN 'Lower-Middle' ELSE Income_Level END AS Income_Level,
+    
+-- Convert Yes/No to integer booleans
+       CASE WHEN G7 = 'Yes' THEN 1 ELSE 0 END AS G7,
+       CASE WHEN G20 = 'Yes' THEN 1 ELSE 0 END AS G20,
+       CASE WHEN NATO = 'Yes' THEN 1 ELSE 0 END AS NATO,
+       CASE WHEN EU = 'Yes' THEN 1 ELSE 0 END AS EU
+  FROM listed_companies_raw;
