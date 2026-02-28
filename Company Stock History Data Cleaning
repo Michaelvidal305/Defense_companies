@@ -1,0 +1,46 @@
+
+=============================
+1. Create a raw import table
+=============================
+CREATE TABLE stock_history_raw (
+    date TEXT,
+    close TEXT,
+    high TEXT,
+    low TEXT,
+    open TEXT,
+    volume TEXT,
+    company_name TEXT
+);
+
+-- Import CSV file into raw table
+
+=============================
+2. Create a cleaned table from raw table 
+=============================
+
+CREATE TABLE stock_history_clean AS
+SELECT
+    -- Convert DD-MM-YYYY → YYYY-MM-DD (SQLite-friendly)
+    substr(date, 7, 4) || '-' ||
+    substr(date, 4, 2) || '-' ||
+    substr(date, 1, 2) AS trade_date,
+
+    CAST(close AS REAL) AS close_price,
+    CAST(high AS REAL) AS high_price,
+    CAST(low AS REAL) AS low_price,
+    CAST(open AS REAL) AS open_price,
+    CAST(volume AS INTEGER) AS volume,
+
+    TRIM(company_name) AS company_name
+FROM stock_history_raw
+WHERE date IS NOT NULL;
+
+=============================
+2. Create a cleaned table from raw table 
+=============================
+
+CREATE INDEX idx_stock_trade_date
+ON stock_history_clean (trade_date);
+
+CREATE INDEX idx_stock_company
+ON stock_history_clean (company_name);
