@@ -1,1 +1,11 @@
+==================================================
+📌 1. Top 10 Companies by Arms Revenue (2023)
+==================================================
+
+SELECT company_name,
+       country,
+       arms_rev_2023
+  FROM sipri_clean_table
+ ORDER BY arms_rev_2023 DESC
+ LIMIT 10;
 
