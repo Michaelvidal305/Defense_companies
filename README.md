@@ -25,8 +25,8 @@ This repository is structured for data analysis, visualization, and future model
 | Company name | Official company name |
 | Country | Country of headquarters |
 | Arms Revenue 2023 | Arms-related revenue (USD millions) |
-| Arms Revenue 2022 | Previous year arms revenue |
-| Total Revenue 2023 | Total coporate revenue |
+| Arms Revenue 2022 | Previous year arms revenue (USD millions) |
+| Total Revenue 2023 | Total coporate revenue (USD millions) |
 | Arms Revenue | Share of total revenue from defense |
 
 **File:** [SIPRI Top 100 Defense Companies (2023).csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
