@@ -1,11 +1,122 @@
 ==================================================
 📌 1. Top 10 Companies by Arms Revenue (2023)
 ==================================================
+       -Shows ranking logic, ordering, and revenue analysis.
 
-SELECT company_name,
-       country,
-       arms_rev_2023
-  FROM sipri_clean_table
+SELECT DISTINCT company_name,
+                country,
+                arms_rev_2023
+  FROM sipri_clean
  ORDER BY arms_rev_2023 DESC
  LIMIT 10;
 
+
+==================================================
+📌 2. Year‑over‑Year Arms Revenue Growth Leaders
+==================================================
+       -Demonstrates ability to analyze growth metrics.
+
+SELECT DISTINCT company_name,
+                arms_rev_2023,
+                arms_rev_2022,
+                arms_rev_growth
+  FROM sipri_clean
+ WHERE arms_rev_growth IS NOT NULL
+ ORDER BY arms_rev_growth DESC
+ LIMIT 10;
+
+==================================================
+📌 3. Companies With the Largest Rank Improvement
+==================================================
+       -The dataset includes rank_change, which is perfect for KPI storytelling.
+
+SELECT DISTINCT company_name,
+                rank_2022,
+                rank_2023,
+                rank_change
+  FROM sipri_clean
+ ORDER BY rank_change DESC;
+
+==================================================
+📌 4. Arms Revenue as % of Total Revenue
+==================================================
+       -The dataset includes arms_rev_pct (e.g., “90.00%”). This KPI highlights dependency on defense revenue.
+
+SELECT DISTINCT company_name,
+                total_rev_2023,
+                arms_rev_2023,
+                arms_rev_pct
+  FROM sipri_clean
+ WHERE total_rev_2023 AND
+       arms_rev_pct IS NOT NULL
+ ORDER BY arms_rev_pct DESC;
+
+========================================================
+📌 5. Industry Breakdown: Total Arms Revenue by Country
+=========================================================
+       -Shows grouping, aggregation, and geopolitical insight.
+
+SELECT country,
+       SUM(arms_rev_2023) AS total_arms_revenue
+  FROM sipri_clean
+ GROUP BY country
+ ORDER BY total_arms_revenue DESC;
+
+================================================================
+📌 6. Fastest‑Growing Defense Industries (Country-Level Growth)
+================================================================
+       -Average percentage growth across companies per country.
+
+SELECT country,
+       ROUND(AVG(arms_rev_growth) * 100, 2) AS avg_pct_growth_rate
+  FROM sipri_clean
+ WHERE arms_rev_growth IS NOT NULL
+ GROUP BY country
+ ORDER BY avg_pct_growth_rate DESC;
+
+==========================================================
+📌 7. Top Companies by Absolute Revenue Growth (USD)
+==========================================================
+       -Includes arms_rev_growth_usd, which is rare and valuable.
+
+SELECT DISTINCT company_name,
+                arms_rev_growth_usd
+  FROM sipri_clean
+ ORDER BY arms_rev_growth_usd DESC;
+
+==========================================================
+📌 8. Defense Industry Concentration (Herfindahl Index KPI)
+==========================================================
+       -Advanced KPI
+
+WITH shares AS (
+    SELECT company_name,
+           arms_rev_2023,
+           arms_rev_2023 * 1.0 / (SELECT SUM(arms_rev_2023) FROM sipri_clean_table) AS market_share
+    FROM sipri_clean_table
+)
+SELECT SUM(market_share * market_share) AS hhi_index
+FROM shares;
+
+==========================================================
+📌 9. Defense Revenue Share by Industry Segment
+==========================================================
+       -Your dataset includes an industry column (e.g., “Aerospace & Defense”, “Defense Manufacturing”).
+
+SELECT industry,
+       SUM(arms_rev_2023) AS total_industry_revenue
+  FROM sipri_clean
+ GROUP BY industry
+ ORDER BY total_industry_revenue DESC;
+
+==========================================================
+📌 10. Companies With 100% Defense Revenue
+==========================================================
+
+
+SELECT DISTINCT company_name,
+       country,
+       arms_rev_2023
+  FROM sipri_clean
+ WHERE arms_rev_pct = 1 OR
+       arms_rev_pct = '100.00%';
