@@ -27,7 +27,11 @@ This repository is structured for data analysis, visualization, and future model
 | Arms Revenue 2023 | Arms-related revenue (USD millions) |
 | Arms Revenue 2022 | Previous year arms revenue (USD millions) |
 | Total Revenue 2023 | Total coporate revenue (USD millions) |
-| Arms Revenue | Share of total revenue from defense |
+| Arms Revenue percentage | Share of total revenue from defense |
+| Arms Revenue Growth Percentage | Year-to-year revenue percentage gain/loss |
+| Rank Change | Year-to-year rank gain/loss |
+| Arms Revenue Growth USD | Year-to-year revenue gain/loss (USD millions) |
+| Industry | Company's indurty name |
 
 **File:** [SIPRI Top 100 Defense Companies (2023).csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/SIPRI%20Top%20100%20Defense%20Companies%20Official%20List.csv)
 
