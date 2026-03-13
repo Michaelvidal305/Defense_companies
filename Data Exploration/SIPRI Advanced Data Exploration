@@ -1,0 +1,111 @@
+=================================================
+⭐ 1. Defense Market Concentration (HHI Index)
+=================================================
+  - Measures how concentrated the global arms market is.
+
+WITH shares AS (
+    SELECT company_name,
+           arms_rev_2023,
+           arms_rev_2023 * 1.0 / (
+                                     SELECT SUM(arms_rev_2023) 
+                                       FROM sipri_clean
+                                 )
+           AS market_share
+      FROM sipri_clean
+)
+SELECT SUM(market_share * market_share) AS hhi_index
+  FROM shares;
+
+=================================================
+⭐ 2. Defense Dependency Risk Score
+=================================================
+  - Shows which companies are most dependent on defense revenue and growing fast.
+
+SELECT company_name,
+       arms_rev_pct,
+       arms_rev_growth,
+       ROUND((arms_rev_pct * arms_rev_growth), 2) AS dependency_risk_score
+  FROM sipri_clean
+ WHERE arms_rev_pct IS NOT NULL AND
+       arms_rev_growth IS NOT NULL
+ ORDER BY dependency_risk_score DESC;
+
+=================================================
+⭐ 3. Country-Level Arms Revenue Growth (Macro KPI)
+=================================================
+  - Shows which countries’ defense industries are growing fastest.
+
+SELECT country,
+       ROUND(AVG(arms_rev_growth) * 100, 2) AS avg_growth_pct
+  FROM sipri_clean
+ WHERE arms_rev_growth IS NOT NULL
+ GROUP BY country
+ ORDER BY avg_growth_pct DESC;
+
+
+=================================================
+⭐ 4. Industry-Level Arms Revenue Share
+=================================================
+  - Shows which industry segments dominate the defense market.
+
+SELECT industry,
+       SUM(arms_rev_2023) AS total_arms_revenue,
+       ROUND(SUM(arms_rev_2023) * 100.0 / (
+                                              SELECT SUM(arms_rev_2023) 
+                                                FROM sipri_clean
+                                          ), 2) AS industry_market_share_pct
+  FROM sipri_clean
+ GROUP BY industry
+ ORDER BY total_arms_revenue DESC;
+
+=================================================
+⭐ 5. Volatility Score (Rank Change + Growth Variance)
+=================================================
+  - A custom KPI showing instability or rapid movement.
+
+SELECT company_name,
+       rank_change,
+       (arms_rev_growth),
+       ROUND(ABS(rank_change) * ABS(arms_rev_growth), 2) AS volatility_score
+  FROM sipri_clean
+ WHERE arms_rev_growth IS NOT NULL
+ ORDER BY volatility_score DESC;
+
+=================================================
+⭐ 6. Top Countries by Total Arms Revenue (Weighted KPI)
+=================================================
+  - Useful for geopolitical insights.
+
+SELECT country,
+       SUM(arms_rev_2023) AS total_arms_revenue,
+       ROUND(SUM(arms_rev_2023) * 100.0 / (
+                                              SELECT SUM(arms_rev_2023) 
+                                                FROM sipri_clean
+                                          ), 2) AS global_share_pct
+  FROM sipri_clean
+ GROUP BY country
+ ORDER BY total_arms_revenue DESC;
+
+=================================================
+⭐ 7. High-Dependency Companies (≥ 90% Defense Revenue)
+=================================================
+  - Shows companies fully reliant on defense.
+
+SELECT company_name,
+       country,
+       arms_rev_2023,
+       arms_rev_pct
+  FROM sipri_clean
+ WHERE arms_rev_pct >= 0.9
+ ORDER BY arms_rev_pct DESC;
+
+=================================================
+⭐ 8. Absolute Arms Revenue Growth (USD Change KPI)
+=================================================
+  - Your dataset includes arms_rev_growth_usd — a rare and powerful metric.
+
+SELECT DISTINCT company_name,
+                arms_rev_growth_usd
+  FROM sipri_clean
+ WHERE arms_rev_growth_usd IS NOT NULL
+ ORDER BY arms_rev_growth_usd DESC;
