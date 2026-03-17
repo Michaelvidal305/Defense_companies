@@ -1,0 +1,149 @@
+=============================
+1. Total Number of Countries
+=============================
+
+SELECT COUNT( * ) AS total_countries
+  FROM country_clean;
+
+=============================
+2. View All Countries With Their Classifications
+=============================
+
+SELECT *
+  FROM country_clean
+ ORDER BY Country;
+
+=============================
+3. Countries by Continent
+=============================
+
+SELECT Continent,
+       COUNT( * ) AS country_count
+  FROM country_clean
+ GROUP BY Continent
+ ORDER BY country_count DESC;
+
+=============================
+4. Countries by Income Level
+=============================
+
+SELECT Income_Level,
+       COUNT( * ) AS num_countries
+  FROM country_clean
+ GROUP BY Income_Level
+ ORDER BY num_countries DESC;
+
+=============================
+5. G7 Members
+=============================
+
+SELECT Country,
+       Continent,
+       Income_Level
+  FROM country_clean
+ WHERE G7 = 1
+ ORDER BY Country;
+
+=============================
+6. G20 Members by Income Level
+=============================
+
+SELECT Income_Level,
+       COUNT( * ) AS g20_members
+  FROM country_clean
+ WHERE G20 = 1
+ GROUP BY Income_Level
+ ORDER BY g20_members DESC;
+
+=============================
+7. NATO Members by Continent
+=============================
+
+SELECT Continent,
+       COUNT( * ) AS nato_members
+  FROM country_clean
+ WHERE NATO = 1
+ GROUP BY Continent
+ ORDER BY nato_members DESC;
+
+=============================
+8. EU Members by Income Level
+=============================
+
+SELECT Income_Level,
+       COUNT( * ) AS eu_members
+  FROM country_clean
+ WHERE EU = 1
+ GROUP BY Income_Level
+ ORDER BY eu_members DESC;
+
+=============================
+9. Countries in Both NATO and EU
+=============================
+
+SELECT Country,
+       Continent,
+       Income_Level
+  FROM country_clean
+ WHERE NATO = 1 AND
+       EU = 1
+ ORDER BY Country;
+
+=============================
+10. Triple Membership: G7 + G20 + NATO
+=============================
+
+SELECT Country,
+       Continent,
+       Income_Level
+  FROM country_clean
+ WHERE G7 = 1 AND
+       G20 = 1 AND
+       NATO = 1;
+
+=============================
+11. Geopolitical Alignment Score (Custom KPI)
+=============================
+
+  - Allignment Score = G7 + G20 + NATO + EU
+
+SELECT Country,
+       Continent,
+       Income_Level,
+       (G7 + G20 + NATO + EU) AS alignment_score
+  FROM country_clean
+ ORDER BY alignment_score DESC,
+          Country;
+
+=============================
+12. Countries With Zero Major Bloc Membership
+=============================
+
+SELECT Country,
+       Continent,
+       Income_Level
+  FROM country_clean
+ WHERE G7 = 0 AND
+       G20 = 0 AND
+       NATO = 0 AND
+       EU = 0;
+
+=============================
+13. Continent-Level Geopolitical Influence Score
+=============================
+
+SELECT Continent,
+       SUM(G7 + G20 + NATO + EU) AS total_alignment_score
+  FROM country_clean
+ GROUP BY Continent
+ ORDER BY total_alignment_score DESC;
+
+=============================
+14. Income Level vs. Global Bloc Participation
+=============================
+
+SELECT Income_Level,
+       ROUND(AVG(G7 + G20 + NATO + EU), 2) AS avg_alignment_score
+  FROM country_clean
+ GROUP BY Income_Level
+ ORDER BY avg_alignment_score DESC;
