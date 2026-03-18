@@ -1,0 +1,138 @@
+=============================
+1. Basic structure & row counts
+=============================
+
+SELECT COUNT( * ) AS total_rows
+  FROM stock_history_clean;
+
+=============================
+2. Number of Companies in the Dataset
+=============================
+
+SELECT COUNT(DISTINCT company_name) AS total_companies
+  FROM stock_history_clean;
+
+=============================
+3. Date Range of the Entire Dataset
+=============================
+
+SELECT MIN(trade_date) AS earliest_date,
+       MAX(trade_date) AS latest_date
+  FROM stock_history_clean;
+
+=============================
+4. Daily Price Summary for Each Company
+=============================
+
+SELECT company_name,
+       MIN(trade_date) AS first_record,
+       MAX(trade_date) AS last_record,
+       COUNT( * ) AS total_days
+  FROM stock_history_clean
+ GROUP BY company_name
+ ORDER BY total_days DESC;
+
+=============================
+5. Top 10 Companies by Trading Volume (All Time)
+=============================
+
+SELECT company_name,
+       SUM(volume) AS total_volume
+  FROM stock_history_clean
+ GROUP BY company_name
+ ORDER BY total_volume DESC
+ LIMIT 10;
+
+=============================
+6. Daily Returns (Essential for KPIs)
+=============================
+  -  Return = close_price - open_price / open_price
+
+SELECT company_name,
+       trade_date,
+       ROUND( (close_price - open_price) * 1.0 / open_price, 4) AS daily_return
+  FROM stock_history_clean;
+
+=============================
+7. Average Daily Return per Company
+=============================
+
+SELECT company_name,
+       ROUND(AVG( (close_price - open_price) * 1.0 / open_price) * 100, 3) AS avg_daily_return_pct
+  FROM stock_history_clean
+ GROUP BY company_name
+ ORDER BY avg_daily_return_pct DESC;
+
+=============================
+8. Volatility (Standard Deviation of Daily Returns)
+=============================
+
+WITH returns AS (
+    SELECT 
+        company_name,
+        (close_price - open_price) * 1.0 / open_price AS daily_return
+    FROM stock_history_clean
+)
+SELECT 
+    company_name,
+    ROUND(STDDEV(daily_return), 4) AS volatility
+FROM returns
+GROUP BY company_name
+ORDER BY volatility DESC;
+
+=============================
+9. Best Trading Days (Top 20)
+=============================
+
+SELECT DISTINCT company_name,
+                trade_date,
+                ROUND( (close_price - open_price) * 1.0 / open_price * 100, 2) AS return_pct
+  FROM stock_history_clean
+ ORDER BY return_pct DESC
+ LIMIT 20;
+
+=============================
+10. Worst Trading Days (Bottom 20)
+=============================
+
+SELECT DISTINCT company_name,
+                trade_date,
+                ROUND( (close_price - open_price) * 1.0 / open_price * 100, 2) AS return_pct
+  FROM stock_history_clean
+ ORDER BY return_pct ASC
+ LIMIT 20;
+
+=============================
+11. Yearly Average Closing Price
+=============================
+
+SELECT company_name,
+       STRFTIME('%Y', trade_date) AS year,
+       ROUND(AVG(close_price), 2) AS avg_close
+  FROM stock_history_clean
+ GROUP BY company_name,
+          year
+ ORDER BY company_name,
+          year;
+
+=============================
+12. Year‑over‑Year Growth (Avg Close)
+=============================
+
+WITH yearly AS (
+    SELECT company_name,
+           STRFTIME('%Y', trade_date) AS year,
+           AVG(close_price) AS avg_close
+      FROM stock_history_clean
+     GROUP BY company_name,
+              year
+)
+SELECT a.company_name,
+       a.year AS current_year,
+       b.year AS previous_year,
+       ROUND( (a.avg_close - b.avg_close) * 1.0 / b.avg_close * 100, 2) AS yoy_growth_pct
+  FROM yearly a
+       JOIN
+       yearly b ON a.company_name = b.company_name AND
+                   a.year = b.year + 1
+ ORDER BY yoy_growth_pct DESC;
