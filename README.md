@@ -76,36 +76,96 @@ MLB_Batting_stats/
 
 | Column | Description                                                       |
 |--------|-------------------------------------------------------------------|
-| Country | Nation name |
-| Continent | Geographic region |
-| Income Level | World Bank income classification |
-| G7 | Whether the country is a G7 member |
-| G20 | Whether the country is a G20 member |
-| NATO | Whether the country is a NATO member |
-| EU | Whether the country is a EU member |
+| Date | The trading date |
+| Close | The closing price of the stock on that day |
+| High | The highest price of the stock on that day |
+| Low | The lowest price of the stock on that day |
+| Open | The opening price of the stock on that day |
+| Volume | The number of shares traded on that day |
+| Company name | The name of the listed company |
+
+**File:** [Stock Price History.csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Stock%20Price%20History.csv)
 
 ## 🧠 Key Questions This Project Can Answer
-  - Which countries dominate global defense revenue?
-  - How concentrated is the defense industry among the top firms?
-  - Which companies grew the fastest year‑over‑year?
-  - What percentage of revenue comes from arms vs. civilian sectors?
-  - How do geopolitical alliances (NATO, G7, G20) correlate with defense spending?
-  - How do income levels relate to defense industry presence?
+**Company‑Level**
+  - Who are the largest defense contractors globally?
 
-## 🛠️ Planned Analysis
-1. Company‑Level Analysis
-   - Revenue growth (2022 → 2023)
-   - Market share of top 10 vs. rest
-   - Arms revenue dependency (% of total revenue)
+  - Which companies grew the fastest in arms revenue?
 
-2. Country‑Level Analysis
-   - Number of companies per country
-   - Total arms revenue by country
-   - NATO vs. non‑NATO comparison
-   - G7 vs. G20 segmentation
+  - How dependent is each company on defense vs. civilian revenue?
 
-3. Visualization Ideas
-   - Bar charts of top companies
-   - Choropleth map of arms revenue by country
-   - Scatter plot: Total revenue vs. arms revenue %
-   - Ranking change visualization (2022 → 2023)
+  - Which industries dominate the defense sector?
+
+**Country‑Level**
+  - Which countries host the most defense companies?
+
+  - How do NATO / G7 / G20 members compare?
+
+  - How does income level relate to defense industry presence?
+
+**Stock‑Level**
+  - Which companies show the strongest long‑term uptrend?
+
+  - Which companies are most volatile?
+
+  - How do stock returns compare across regions?
+
+## 🛠️ Analysis Performed
+
+**SIPRI Dataset**
+  - Market share calculations
+
+  - HHI concentration index
+
+  - Arms revenue dependency score
+
+  - Rank change analysis
+
+  - Country‑level revenue aggregation
+
+**Country Dataset**
+  - Continent‑level segmentation
+
+  - Alliance membership scoring
+
+  - Income‑level comparisons
+
+  - Geopolitical alignment index
+
+**Stock History Dataset**
+  - Daily returns
+
+  - Average return per company
+
+  - Volatility (std dev of returns)
+
+  - Best/worst trading days
+
+  - Year‑over‑year price growth
+
+  - Trend classification (Uptrend / Downtrend / Flat)
+
+## 📈Visualization Ideas
+
+  - **Bar charts:** Top 10 companies by arms revenue
+
+  - **Choropleth map:** Arms revenue by country
+
+  - **Scatter plot:** Arms revenue % vs. total revenue
+
+  - **Line charts:** Stock price trends
+
+  - **Heatmaps:** Geopolitical alignment scores
+
+## 🚀 Future Enhancements
+  - Merge SIPRI + country + stock datasets into a unified analytical model
+
+  - Build a dashboard (Tableau / Power BI / Python)
+
+  - Add machine learning for revenue growth prediction
+
+  - Add clustering for geopolitical grouping
+
+## 👤 Author
+Michael Vidal  
+Data Analyst | SQL | Data Cleaning | Visualization
