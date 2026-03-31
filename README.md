@@ -1,17 +1,37 @@
 # 🛡️ Global Defense Companies Analysis
 
 ## 📌 Project Overview
-This project analyzes the Top 100 Defense Companies (2023) using data from SIPRI, combined with a country‑level geopolitical classification dataset.
-The goal is to explore:
+This repository analyzes the Top 100 Defense Companies (2023) using SIPRI data, enriched with:
 
-  - Global distribution of defense contractors
-  - Arms revenue trends
-  - Country‑level defense industry characteristics
-  - G7 / G20 / NATO / EU participation
-  - Regional and economic segmentation
-  - Year‑over‑year ranking changes
+  - **Country‑level geopolitical classifications** (G7, G20, NATO, EU, income level, continent)
 
-This repository is structured for data analysis, visualization, and future modeling.
+  - **Historical stock price data** for publicly listed defense companies
+
+The goal is to build a **full SQL‑driven analytics workflow** that answers:
+
+  - Which countries dominate global defense revenue?
+
+  - How concentrated is the defense industry?
+
+  - Which companies grew the fastest year‑over‑year?
+
+   - How do geopolitical alliances correlate with defense presence?
+
+   - How do income levels relate to defense industry participation?
+
+   - How do defense companies perform in the stock market over time?
+
+This project is designed to showcase **data cleaning, SQL exploration, KPI creation, and analytical storytelling.**
+
+## 📁Repository Structure
+
+MLB_Batting_stats/
+│── 📂 Dataset/              # Raw MLB batting data
+│── 📂 cleaned_dataset/      # Cleaned CSVs after SQL processing
+│── 📂 Data_exploration/     # SQL scripts, joins, lookup tables
+│── 📂 visuals/              # Plots, charts, exports
+│── 📄 README.md             # Project documentation
+
 
 ## 📁 Datasets Included
 
@@ -50,6 +70,19 @@ This repository is structured for data analysis, visualization, and future model
 | EU | Whether the country is a EU member |
 
 **File:** [Country Segmentation Dataset.csv](https://github.com/Michaelvidal305/Defense_companies/blob/main/Dataset/Listed%20Companies%20CountryWise%20%20Segregation.csv)
+
+3. Stock Price History
+- Daily OHLCV data for publicly listed defense companies:
+
+| Column | Description                                                       |
+|--------|-------------------------------------------------------------------|
+| Country | Nation name |
+| Continent | Geographic region |
+| Income Level | World Bank income classification |
+| G7 | Whether the country is a G7 member |
+| G20 | Whether the country is a G20 member |
+| NATO | Whether the country is a NATO member |
+| EU | Whether the country is a EU member |
 
 ## 🧠 Key Questions This Project Can Answer
   - Which countries dominate global defense revenue?
