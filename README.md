@@ -167,5 +167,5 @@ MLB_Batting_stats/
   - Add clustering for geopolitical grouping
 
 ## 👤 Author
-Michael Vidal  
+**Michael Vidal**  
 Data Analyst | SQL | Data Cleaning | Visualization
